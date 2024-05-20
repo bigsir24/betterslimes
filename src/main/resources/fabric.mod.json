@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "id": "examplemod",
+  "id": "betterslimes",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This mod aims to help new BTA modders.",
+  "name": "Better Slimes",
+  "description": "Slimes, but better.",
   "authors": [
-    "Turnip Labs"
+    "Big Sir"
   ],
   "contact": {
     "homepage": "",
@@ -19,25 +19,25 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-			"turniplabs.examplemod.ExampleMod"
+			"bigsir.betterslimes.BetterSlimes"
     ],
 		"beforeGameStart": [
-			"turniplabs.examplemod.ExampleMod"
+			"bigsir.betterslimes.BetterSlimes"
 		],
 		"afterGameStart": [
-			"turniplabs.examplemod.ExampleMod"
+			"bigsir.betterslimes.BetterSlimes"
 		],
 		"recipesReady": [
-			"turniplabs.examplemod.ExampleMod"
+			"bigsir.betterslimes.BetterSlimes"
 		]
 	},
   "mixins": [
-      "examplemod.mixins.json"
+      "betterslimes.mixins.json"
   ],
 
   "depends": {
-		"minecraft": "~7.1",
-    "fabricloader": ">=0.15.5"
+		"minecraft": "^7.2-beta",
+    "fabricloader": ">=0.15.6-babric"
   },
   "suggests": {
   }
