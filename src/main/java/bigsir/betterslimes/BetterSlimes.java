@@ -20,14 +20,20 @@ public class BetterSlimes implements ModInitializer, GameStartEntrypoint, Recipe
     }
 
 	public static Item slimeEffect;
+	public static Item debugTool;
 
 	@Override
 	public void beforeGameStart() {
 		slimeEffect = new ItemBuilder(MOD_ID)
-			.setIcon("slimed:item/slime_effect")
+			.setIcon("betterslimes:item/slime_effect")
 			.addTags(ItemTags.NOT_IN_CREATIVE_MENU)
 			.setItemModel(item -> new ItemModelStandard(item, null))
 			.build(new Item("effect.slime", 21000));
+
+		debugTool = new ItemBuilder(MOD_ID)
+			.setIcon("minecraft:item/stick")
+			.setItemModel(item -> new ItemModelStandard(item, null))
+			.build(new DebugTool("tool.debug", 21001));
 	}
 
 	@Override

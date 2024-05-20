@@ -4,10 +4,21 @@
     "package": "bigsir.betterslimes.mixin",
     "compatibilityLevel": "JAVA_8",
     "mixins": [
+      "EntitySlimeMixin",
+      "ItemDyeMixin",
+      "RenderGlobalMixin",
+      "WeatherMixin"
     ],
     "client": [
+      "SlimeRendererMixin"
     ],
     "injectors": {
         "defaultRequire": 1
+  },
+  "custom": {
+    "loom:injected_interfaces": {
+      "net/minecraft/core/entity/monster/EntitySlime": ["bigsir/betterslimes/interfaces/EntitySlimeInterface"],
+      "net/minecraft/client/render/RenderGlobal": ["bigsir/betterslimes/interfaces/RenderGlobalInterface"]
+    }
   }
 }
