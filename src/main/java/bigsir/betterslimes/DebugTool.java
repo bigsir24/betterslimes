@@ -5,8 +5,6 @@ import net.minecraft.core.entity.monster.EntitySlime;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
-import net.minecraft.core.util.helper.Side;
-import net.minecraft.core.world.World;
 
 public class DebugTool extends Item {
 	public DebugTool(String name, int id) {

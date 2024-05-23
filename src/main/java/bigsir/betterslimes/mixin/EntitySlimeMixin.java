@@ -23,7 +23,6 @@ import net.minecraft.core.util.helper.MathHelper;
 import net.minecraft.core.util.phys.AABB;
 import net.minecraft.core.util.phys.Vec3d;
 import net.minecraft.core.world.World;
-import net.minecraft.core.world.WorldSource;
 import net.minecraft.core.world.chunk.Chunk;
 import net.minecraft.core.world.weather.Weather;
 import org.spongepowered.asm.mixin.Mixin;
@@ -45,7 +44,6 @@ public abstract class EntitySlimeMixin extends EntityLiving implements IEnemy, E
 	}
 
 	//Effect played when consuming slime
-	//Should probably be in a separate class
 	public void consumeEffect(EntityLiving entityliving){
 		int size = ((EntitySlime) entityliving).getSlimeSize();
 		int particleCount = size * 16;
@@ -80,7 +78,7 @@ public abstract class EntitySlimeMixin extends EntityLiving implements IEnemy, E
 
 	public int flowerToColor(Block block){
 		String string = block.asItem().getDefaultStack().getItemName().split("\\.")[2].toUpperCase();
-		return FlowerColor.valueOf(string).dyeMeta;
+		return FlowerColor.valueOf(string).dyeID;
 	}
 
 	@Shadow
@@ -104,12 +102,6 @@ public abstract class EntitySlimeMixin extends EntityLiving implements IEnemy, E
 			this.setSlimeSize(size);
 			if(isRaining) this.entityData.set(18, DyeColor.DYE_BLUE.blockMeta);
 		}
-		//Changes slime color to white if biome is snowy
-		/*Biome biome = this.world.getBlockBiome((int)this.x,(int)this.y,(int)this.z);
-		if(biome.hasSurfaceSnow()) this.entityData.set(18, 0);
-		if(rand.nextInt(180) == 0 && this.getSlimeSize() == 1){
-			this.entityData.set(18, 6);
-		}*/
 	}
 
 	@Inject(at = @At("TAIL"), method = "addAdditionalSaveData", cancellable = true)
@@ -152,7 +144,6 @@ public abstract class EntitySlimeMixin extends EntityLiving implements IEnemy, E
 			}
 		}
 	}
-
 
 	@Inject(at = @At(value = "INVOKE", target = "net/minecraft/core/entity/monster/EntitySlime.getSlimeSize()I"), method = "tick()V")
 	public void tickLandedOnFlower(CallbackInfo ci) {
@@ -203,25 +194,9 @@ public abstract class EntitySlimeMixin extends EntityLiving implements IEnemy, E
 					this.yRot = this.yRotO + rRot;
 				}
 			}
-			//extracted from If statement for testing
 			this.moveForward = (float)this.getSlimeSize();
 			ci.cancel();
 		}
-
-		//Merge with small slimes, disabled for now
-		/*
-		if(this.getSlimeSize() == 1){
-			List<Entity> entities = this.world.getEntitiesWithinAABBExcludingEntity(this, new AABB(x - 5,y - 2,z - 5,x + 5,y + 2, z + 5));
-			if(!entities.isEmpty() && entities.get(0) instanceof EntitySlime && ((EntitySlime) entities.get(0)).getSlimeSize() == 1){
-				Entity e = entities.get(0);
-				this.faceEntity(e, 10.0F, 20.0F);
-				double dist = Vec3d.createVector(e.x-x,e.y-y,e.z-z).lengthVector();
-				if(dist < 1){
-					e.remove();
-					this.setSlimeSize(2);
-				}
-			}
-		}*/
 	}
 
 	@Inject(at = @At(value="INVOKE", target = "net/minecraft/core/world/World.entityJoinedWorld(Lnet/minecraft/core/entity/Entity;)Z"), method = "remove()V", locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
@@ -238,8 +213,14 @@ public abstract class EntitySlimeMixin extends EntityLiving implements IEnemy, E
 
 	@Override
 	public void rideTick() {
-		super.rideTick();
 		this.yRot = ((EntityPlayer)this.vehicle).yRot;
+		super.rideTick();
+	}
+
+	@Override
+	public boolean isInWall() {
+		if(this.vehicle != null) return false;
+		return super.isInWall();
 	}
 
 	@Override
@@ -273,9 +254,6 @@ public abstract class EntitySlimeMixin extends EntityLiving implements IEnemy, E
 
 	@Override
 	public String getEntityTexture() {
-		//if(this.nickname.equals("jonk") || this.nickname.equals("test")) return "assets/slimed/textures/entity/slimeNew.png";
-		//return this.entityData.getInt(18) != -1 ? "assets/slimed/textures/entity/slimeNew.png" : super.getEntityTexture();
-		//if(this.getHeldItem() != ItemStack.NO_ITEM) return "assets/slimed/textures/entity/slimeNewItem.png";
 		return "assets/betterslimes/textures/entity/slime_colorable.png";
 	}
 
@@ -309,6 +287,12 @@ public abstract class EntitySlimeMixin extends EntityLiving implements IEnemy, E
 		ItemStack itemstack = this.entityData.getItemStack(17);
 		this.mobDrops.add(new WeightedRandomLootObject(itemstack, itemstack.stackSize));
 		return this.mobDrops;
+	}
+
+	@Override
+	protected void causeFallDamage(float f) {
+		if(this.vehicle != null) return;
+		super.causeFallDamage(f);
 	}
 
 	@Override

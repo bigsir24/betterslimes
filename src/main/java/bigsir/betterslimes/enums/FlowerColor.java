@@ -8,10 +8,10 @@ public enum FlowerColor {
 	LIGHTBLUE(334, 3),
 	ORANGE(335, 1);
 	public final int blockID;
-	public final int dyeMeta;
+	public final int dyeID;
 
-	private FlowerColor(int blockID, int dyeMeta) {
+	private FlowerColor(int blockID, int dyeID) {
 		this.blockID = blockID;
-		this.dyeMeta = dyeMeta;
+		this.dyeID = dyeID;
 	}
 }

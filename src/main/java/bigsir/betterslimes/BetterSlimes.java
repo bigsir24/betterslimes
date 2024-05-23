@@ -32,6 +32,7 @@ public class BetterSlimes implements ModInitializer, GameStartEntrypoint, Recipe
 
 		debugTool = new ItemBuilder(MOD_ID)
 			.setIcon("minecraft:item/stick")
+			.addTags(ItemTags.NOT_IN_CREATIVE_MENU)
 			.setItemModel(item -> new ItemModelStandard(item, null))
 			.build(new DebugTool("tool.debug", 21001));
 	}
