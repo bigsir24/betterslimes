@@ -1,9 +1,9 @@
 # Better Slimes
 *__Note:__ Might contain uncaught bugs, backing up your worlds is recommended.*
-***
+
 *Dependencies:*
 - HalpLibe 4.0.6
-***
+
 *Features:*
 - Slimes can now swim
 - Slimes can now be dyed
