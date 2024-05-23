@@ -1,5 +1,6 @@
 package bigsir.betterslimes.mixin;
 
+import bigsir.betterslimes.interfaces.EntitySlimeInterface;
 import net.minecraft.client.render.LightmapHelper;
 import net.minecraft.client.render.colorizer.Colorizers;
 import net.minecraft.client.render.entity.LivingRenderer;
