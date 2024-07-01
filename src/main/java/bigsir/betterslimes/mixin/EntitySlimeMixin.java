@@ -77,7 +77,7 @@ public abstract class EntitySlimeMixin extends EntityLiving implements IEnemy, E
 	}
 
 	public int flowerToColor(Block block){
-		String string = block.asItem().getDefaultStack().getItemName().split("\\.")[2].toUpperCase();
+		String string = block.asItem().getDefaultStack().getItemKey().split("\\.")[2].toUpperCase();
 		return FlowerColor.valueOf(string).dyeID;
 	}
 
